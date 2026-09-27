@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจัดการเงินเดือนพนักงาน | Payroll System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sarabun:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+        }
+
+        /* ซ่อนลูกศรใน input type number */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-[#F8FAFC] min-h-screen text-slate-800 antialiased selection:bg-slate-200">
+
+    <!-- Top Navigation -->
+    <nav class="bg-white border-b border-slate-200/60 sticky top-0 z-10 backdrop-blur-md bg-white/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div
+                    class="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold tracking-tighter">
+                    PR</div>
+                <h1 class="text-lg font-semibold text-slate-900 tracking-tight">Payroll<span
+                        class="text-slate-400 font-normal">System</span></h1>
+            </div>
+            <div>
+                <span
+                    class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-medium border border-slate-200">OOP
+                    Complete</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- Dashboard -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+                class="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] border border-slate-100 flex flex-col justify-between">
+                <p class="text-sm font-medium text-slate-500 mb-1">จำนวนพนักงานทั้งหมด</p>
+                <div class="flex items-end gap-2">
+                    <h3 id="totalEmpCount" class="text-4xl font-semibold text-slate-900 tracking-tight">0</h3>
+                    <span class="text-sm text-slate-400 mb-1">คน</span>
+                </div>
+            </div>
+            <div
+                class="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] border border-slate-100 flex flex-col justify-between">
+                <p class="text-sm font-medium text-slate-500 mb-1">งบประมาณเงินเดือนรวม</p>
+                <h3 id="totalPayrollSum" class="text-3xl font-semibold text-slate-900 tracking-tight truncate">฿0.00
+                </h3>
+            </div>
+            <div
+                class="bg-white p-6 rounded-2xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] border border-slate-100 flex flex-col justify-between">
+                <p class="text-sm font-medium text-slate-500 mb-1">เงินเดือนเฉลี่ย/คน</p>
+                <h3 id="avgSalary" class="text-3xl font-semibold text-slate-900 tracking-tight truncate">฿0.00</h3>
+            </div>
+        </div>
+
+        <!-- แบ่งซ้าย ขวา -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+
+            <!-- ฝั่งซ้าย-->
+            <div class="xl:col-span-4">
+                <div
+                    class="bg-white p-7 rounded-2xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] border border-slate-100">
+                    <div class="mb-6">
+                        <h2 class="text-lg font-semibold text-slate-900">เพิ่มข้อมูลพนักงาน</h2>
+                        <p class="text-sm text-slate-500 mt-1">กรอกรายละเอียดเพื่อบันทึกลงในระบบ</p>
+                    </div>
+
+                    <form id="payrollForm" class="space-y-5">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2">
+                                <label
+                                    class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">รหัสพนักงาน</label>
+                                <input type="text" id="empId" required placeholder="EMP-000"
+                                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3">
+                            </div>
+                            <div class="col-span-2">
+                                <label
+                                    class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">ชื่อ-นามสกุล</label>
+                                <input type="text" id="empName" required placeholder="ชื่อ นามสกุล"
+                                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3">
+                            </div>
+                            <div class="col-span-1">
+                                <label
+                                    class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">แผนก</label>
+                                <select id="empDept"
+                                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3 appearance-none">
+                                    <option value="IT">IT</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                </select>
+                            </div>
+                            <div class="col-span-1">
+                                <label
+                                    class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">ประเภท</label>
+                                <select id="empType"
+                                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3 appearance-none">
+                                    <option value="fulltime">พนักงานประจำ</option>
+                                    <option value="parttime">พาร์ทไทม์</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                        <div id="fullTimeInputs" class="space-y-4 pt-4 border-t border-slate-100">
+                            <div>
+                                <label
+                                    class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">เงินเดือนประจำ
+                                    (บาท)</label>
+                                <input type="number" id="monthlySalary" min="0" placeholder="0.00"
+                                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">โบนัส
+                                    (บาท)</label>
+                                <input type="number" id="bonus" min="0" value="0" placeholder="0.00"
+                                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3">
+                            </div>
+                        </div>
+
+                        <div id="partTimeInputs" class="space-y-4 pt-4 border-t border-slate-100 hidden">
+                            <div>
+                                <label
+                                    class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">ค่าจ้างต่อชั่วโมง
+                                    (บาท)</label>
+                                <input type="number" id="hourlyRate" min="0" placeholder="0.00"
+                                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">จำนวนชั่วโมงที่ทำงาน</label>
+                                <input type="number" id="hoursWorked" min="0" placeholder="0"
+                                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3">
+                            </div>
+                        </div>
+
+                        <!-- ส่วนตั้งค่าการหักภาษีและประกันสังคมรายบุคคล -->
+                        <div class="space-y-4 pt-4 border-t border-slate-100 bg-slate-50/50 p-4 rounded-xl">
+                            <h3 class="text-sm font-semibold text-slate-900 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                                    </path>
+                                </svg>
+                                ปรับแต่งเปอร์เซ็นต์หักเงินรายบุคคล
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">ภาษี
+                                        ณ ที่จ่าย (%)</label>
+                                    <input type="number" id="taxRate" min="0" max="100" step="any" value="3"
+                                        class="w-full bg-white border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3 shadow-sm">
+                                </div>
+                                <div id="ssRateContainer">
+                                    <label
+                                        class="block text-xs font-medium text-slate-500 mb-1.5 uppercase tracking-wider">ประกันสังคม
+                                        (%)</label>
+                                    <input type="number" id="ssRate" min="0" max="100" step="any" value="5"
+                                        class="w-full bg-white border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all p-3 shadow-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium p-3 rounded-xl text-sm transition-all shadow-md shadow-slate-900/10 mt-2">
+                            บันทึกข้อมูลพนักงาน
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ฝั่งขวา -->
+            <div class="xl:col-span-8">
+                <div
+                    class="bg-white rounded-2xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] border border-slate-100 h-full flex flex-col">
+
+                    <div
+                        class="p-6 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <h2 class="text-lg font-semibold text-slate-900">รายชื่อพนักงาน</h2>
+                        <div class="relative w-full sm:w-72">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" id="searchInput" placeholder="ค้นหาชื่อ, รหัส, แผนก..."
+                                class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-full focus:ring-2 focus:ring-slate-900 focus:bg-white outline-none transition-all py-2 pl-9 pr-4">
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead class="text-xs text-slate-500 uppercase bg-slate-50/50 border-b border-slate-100">
+                                <tr>
+                                    <th class="px-6 py-4 font-medium tracking-wider">พนักงาน</th>
+                                    <th class="px-6 py-4 font-medium tracking-wider">แผนก/ประเภท</th>
+                                    <th class="px-6 py-4 font-medium tracking-wider">รายละเอียด</th>
+                                    <th class="px-6 py-4 font-medium tracking-wider text-right">ยอดสุทธิ (บาท)</th>
+                                    <th class="px-6 py-4 font-medium tracking-wider text-center">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeTableBody" class="divide-y divide-slate-100">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
